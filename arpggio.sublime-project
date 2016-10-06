@@ -1,0 +1,16 @@
+{
+	"folders":
+	[
+		{
+			"name": "root",
+			"path": ".",
+			"file_exclude_patterns": [],
+			"folder_exclude_patterns": ["*"]
+		}, 
+
+		{
+			"path": "arpggio",
+			"folder_exclude_patterns": [".meteor"]
+		}
+	]
+}
