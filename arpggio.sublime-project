@@ -11,6 +11,10 @@
 		{
 			"path": "arpggio",
 			"folder_exclude_patterns": [".meteor"]
+		},
+
+		{
+			"path": "specs"
 		}
 	]
 }
