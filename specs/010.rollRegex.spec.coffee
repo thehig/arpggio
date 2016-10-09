@@ -13,7 +13,9 @@ describe "010. Roll Regex", ->
 	describe "throws an error if", ->
 		expectThrows = (item)->
 			it item.description, ->
-				expect(lib.rollRegex({"inputString": item.parameter})).to.be.rejectedWith(item.rejectsWith)
+				lib.rollRegex({"inputString": item.parameter}).then(null, (result)->
+					expect(result.error.message).to.contain(item.rejectsWith)
+				)
 
 		expectThrows(item) for item in [
 			{"description": "no parameter passed", "rejectsWith": "Invalid parameter", "parameter": undefined}
@@ -26,7 +28,7 @@ describe "010. Roll Regex", ->
 	describe "with a non-empty string", ->
 		expectReturns = (input, result)->
 			it input, ->
-				expect(lib.rollRegex({"inputString": input})).to.eventually.equal(result)
+				expect(lib.rollRegex({"inputString": input})).to.eventually.have.property("passesRollRegex", result)
 
 		describe "returns true", ->
 			expectReturns(input, true) for input in [
