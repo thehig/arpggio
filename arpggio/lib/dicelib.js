@@ -1,4 +1,4 @@
-module.exports = {
+diceLib = {
 	rollRegex: function(workblob){
 		return new Promise(function(ccb, ecb){
 			if(!workblob) return ecb({'error': new Error("RollParse: No workblob")});
@@ -78,5 +78,38 @@ module.exports = {
 			workblob.parsedRoll = parsedRoll;
 			return ccb(workblob);
 		});
+	},
+	rollRandom: function(workblob){
+		return new Promise(function(ccb, ecb){
+			if(!workblob) return ecb({'error': new Error("RollRandom: No workblob")});
+			if(!workblob.inputString) workblob.error = new Error("RollRandom: inputString not found");
+			if(!workblob.error && workblob.passesRollRegex !== true) workblob.error = new Error("RollRandom: passesRollRegex not true");
+			if(!workblob.error && !workblob.parsedRoll) workblob.error = new Error("RollRandom: parsedRoll not found");
+			if(!workblob.error && workblob.parsedRoll.numDice === undefined) workblob.error = new Error("RollRandom: parsedRoll.numDice not found");
+			if(!workblob.error && workblob.parsedRoll.diceSides === undefined) workblob.error = new Error("RollRandom: parsedRoll.diceSides not found");
+			if(!workblob.error && workblob.parsedRoll.modifier === undefined) workblob.error = new Error("RollRandom: parsedRoll.modifier not found");
+			
+			if(workblob.error) return ecb(workblob);
+
+			workblob.rolledDice = [];
+			for(var i = 0; i < workblob.parsedRoll.numDice; i++){
+				workblob.rolledDice.push(Math.floor(Math.random() * (workblob.parsedRoll.diceSides - 1 + 1) + 1));
+			}
+
+			ccb(workblob);
+		});
+	},
+	roll: function(inputString){
+		return diceLib.rollRegex({"inputString": inputString})
+			.then(diceLib.rollParse)
+			.then(diceLib.rollRandom)
+			.then(function (workblob){
+				return {
+					"rolls": workblob.rolledDice,
+					"total": workblob.parsedRoll.modifier + workblob.rolledDice.reduce(function(prev, val){ return prev + val}, 0)
+				}
+			});
 	}
 };
+
+module.exports = diceLib;
