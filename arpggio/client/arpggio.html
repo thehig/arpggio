@@ -19,14 +19,7 @@
 			<p>Error: [{{diceResult.error}}] {{diceResult.reason}}: {{diceResult.details}}</p>
 		{{else}}
 			<!-- Show Result -->
-			<p>Total: {{diceResult.total}}</p>
-			<p>Rolls:</p>
-
-			<ul>
-			{{#each diceResult.rolls}}
-				<li>{{this}}</li>
-			{{/each}}
-			</ul>
-		{{/if}}
+			<p>{{diceResult.description}}</p>
+ 		{{/if}}
 	</div>
 </template>

@@ -106,9 +106,22 @@ diceLib = {
 			.then(diceLib.rollParse)
 			.then(diceLib.rollRandom)
 			.then(function (workblob){
+				// Calculate the total
+				var total = workblob.parsedRoll.modifier + workblob.rolledDice.reduce(function(prev, val){ return prev + val}, 0);
+				// Build a friendly output message
+				var description = "" + workblob.rolledDice.join(" + "); //+ "" + workblob.parsedRoll.modifier + " = " + total;
+				if(workblob.parsedRoll.modifier){
+					if(workblob.parsedRoll.modifier > 0) description += " + " + workblob.parsedRoll.modifier;
+					if(workblob.parsedRoll.modifier < 0) description += " " + workblob.parsedRoll.modifier;
+				}
+				description += " = " + total;
+				// Return everything to the asker
 				return {
 					"rolls": workblob.rolledDice,
-					"total": workblob.parsedRoll.modifier + workblob.rolledDice.reduce(function(prev, val){ return prev + val}, 0)
+					"modifier": workblob.parsedRoll.modifier,
+					"diceMax": workblob.parsedRoll.diceSides,
+					"total": total,
+					"description": description
 				}
 			});
 	}
@@ -139,9 +152,10 @@ if (typeof Meteor !== 'undefined' && Meteor.methods && Meteor.isServer) {
 						var body = err.error.message.substring(separator + 1).trim();
 						throw new Meteor.Error('500', title, body);						
 					} else if(err && err.error) {
-						throw new Meteor.Error('500', err.error);
+						throw new Meteor.Error('501', err.error);
 					} else {
-						throw new Meteor.Error('500', err);
+						console.log(err);
+						throw new Meteor.Error('502', err);
 					}
 				});
 		}
