@@ -1,3 +1,5 @@
+console.log("Loading diceLib.js");
+
 diceLib = {
 	rollRegex: function(workblob){
 		return new Promise(function(ccb, ecb){
@@ -112,4 +114,12 @@ diceLib = {
 	}
 };
 
-module.exports = diceLib;
+// Expose to Node
+if ( typeof module !== 'undefined' && module.exports){
+	module.exports = diceLib;	
+}
+
+// Expose to Meteor
+if ( typeof Modules !== 'undefined' && Modules.both){
+	Modules.both.diceLib = diceLib;
+}
