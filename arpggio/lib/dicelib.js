@@ -119,7 +119,31 @@ if ( typeof module !== 'undefined' && module.exports){
 	module.exports = diceLib;	
 }
 
-// Expose to Meteor
+// Expose to Meteor as module
 if ( typeof Modules !== 'undefined' && Modules.both){
 	Modules.both.diceLib = diceLib;
+}
+
+// Expose Meteor.method
+if (typeof Meteor !== 'undefined' && Meteor.methods && Meteor.isServer) {
+	Meteor.methods({
+		rollDice: function(inputString){
+			return diceLib.roll(inputString).then(
+				function success(result){
+					return result;
+				}, 
+				function error(err){
+					if(err && err.error && err.error.message && err.error.message.indexOf(':') > -1){
+						var separator = err.error.message.indexOf(':');
+						var title = err.error.message.substring(0, separator).trim();
+						var body = err.error.message.substring(separator + 1).trim();
+						throw new Meteor.Error('500', title, body);						
+					} else if(err && err.error) {
+						throw new Meteor.Error('500', err.error);
+					} else {
+						throw new Meteor.Error('500', err);
+					}
+				});
+		}
+	});
 }

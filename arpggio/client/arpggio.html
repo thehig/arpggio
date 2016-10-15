@@ -1,0 +1,32 @@
+<head>
+  <title>arpgg.io</title>
+</head>
+
+<body>
+  <h1>Welcome to Meteor!</h1>
+
+  {{> rollDice}}
+</body>
+
+
+<template name="rollDice">
+	<p>Roll Dice</p>
+	<input id="rollDiceInput" value="{{diceInput}}">
+	<button id="rollDiceButton">Roll Dice</button>
+	<div id="rollDiceOutput">
+		{{#if diceResult.error}}
+			<!-- Show Error -->
+			<p>Error: [{{diceResult.error}}] {{diceResult.reason}}: {{diceResult.details}}</p>
+		{{else}}
+			<!-- Show Result -->
+			<p>Total: {{diceResult.total}}</p>
+			<p>Rolls:</p>
+
+			<ul>
+			{{#each diceResult.rolls}}
+				<li>{{this}}</li>
+			{{/each}}
+			</ul>
+		{{/if}}
+	</div>
+</template>
