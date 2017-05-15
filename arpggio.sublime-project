@@ -4,17 +4,8 @@
 		{
 			"name": "/",
 			"path": ".",
-			"file_exclude_patterns": [],
-			"folder_exclude_patterns": ["*"]
-		}, 
-
-		{
-			"path": "arpggio",
-			"folder_exclude_patterns": [".meteor"]
-		},
-
-		{
-			"path": "specs"
+			"file_exclude_patterns": [".gitkeep"],
+			"folder_exclude_patterns": [".meteor", "node_modules"]
 		}
 	]
 }
