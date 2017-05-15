@@ -7,7 +7,11 @@ module.exports = {
   },
   "settings": {
     // https://github.com/clayne11/eslint-import-resolver-meteor/issues/11
-    "import/core-modules": [ "meteor/meteor" ]
+    "import/core-modules": [ 
+      "meteor/meteor",
+      "meteor/react-meteor-data",
+      "meteor/mongo",
+    ]
   },
   "extends": ["airbnb/base", "plugin:meteor/recommended"],
   "plugins": [

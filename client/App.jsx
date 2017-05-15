@@ -1,5 +1,8 @@
-const React = require('react');
-const ArpggioMapComponent = require('arpggio-map-component'); //eslint-disable-line
+import React from 'react';
+import ArpggioMapComponent from 'arpggio-map-component'; //eslint-disable-line
+import { createContainer } from 'meteor/react-meteor-data';
+
+import { Views } from '../lib/views';
 
 class App extends React.Component {
   constructor(props) {
@@ -52,4 +55,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default createContainer(() => ({
+  views: Views.find({}).fetch(),
+}), App);
+
+// export default App;
