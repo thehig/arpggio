@@ -5,6 +5,10 @@ module.exports = {
     "node": true,
     "jest": true,
   },
+  "settings": {
+    // https://github.com/clayne11/eslint-import-resolver-meteor/issues/11
+    "import/core-modules": [ "meteor/meteor" ]
+  },
   "extends": ["airbnb/base", "plugin:meteor/recommended"],
   "plugins": [
     "meteor",
