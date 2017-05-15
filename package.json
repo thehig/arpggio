@@ -35,7 +35,7 @@
     "mocha": "^3.1.0"
   },
   "dependencies": {
-    "arpggio-map-component": "^0.3.3",
+    "arpggio-map-component": "^0.4.1",
     "babel-runtime": "^6.23.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
